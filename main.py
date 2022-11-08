@@ -7,7 +7,6 @@ import telegram
 import requests
 from requests import ReadTimeout, ConnectionError
 
-url = 'https://dvmn.org/api/user_reviews/'
 url_for_long_polling = 'https://dvmn.org/api/long_polling/'
 load_dotenv()
 

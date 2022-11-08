@@ -13,10 +13,10 @@ load_dotenv()
 
 def check_lessons_review(token, chat_id, bot):
     headers = {'Authorization': f'Token {token}'}
-    timestamp = time.time()
+    params = {}
     while True:
         try:
-            response = requests.get(url_for_long_polling, headers=headers, params={'timestamp': timestamp}, timeout=90)
+            response = requests.get(url_for_long_polling, headers=headers, params=params, timeout=60)
             response.raise_for_status()
             timestamp = response.json()['last_attempt_timestamp']
             # response = requests.get(url_for_long_polling, headers=headers, , timeout=5)

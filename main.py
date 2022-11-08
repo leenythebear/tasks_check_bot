@@ -29,7 +29,15 @@ def check_lessons_review(token, chat_id, bot):
         time.sleep(90)
 
 
-def
+def send_message(chat_id, bot, review):
+    new_attempts = review['new_attempts'][0]
+    if not new_attempts['is_negative']:
+        message = 'Вашу работу проверили, преподаватель принял работу'
+        bot.send_message(chat_id=chat_id, text=message)
+    else:
+        message = 'Вашу работу проверили, преподаватель нашел ошибки'
+        bot.send_message(chat_id=chat_id, text=message)
+
 
 if __name__ == '__main__':
     load_dotenv()

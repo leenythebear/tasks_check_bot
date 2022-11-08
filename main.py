@@ -11,7 +11,7 @@ url_for_long_polling = 'https://dvmn.org/api/long_polling/'
 load_dotenv()
 
 
-def send_requests(token):
+def check_lessons_review(token, chat_id, bot):
     headers = {'Authorization': f'Token {token}'}
     timestamp = time.time()
     while True:

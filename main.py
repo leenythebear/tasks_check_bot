@@ -1,5 +1,8 @@
 import os
+import time
+
 from dotenv import load_dotenv
+import telegram
 
 import requests
 from requests import ReadTimeout, ConnectionError

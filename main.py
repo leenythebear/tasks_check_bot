@@ -49,6 +49,9 @@ if __name__ == '__main__':
     bot_token = os.environ['BOT_TOKEN']
     chat_id = os.environ['CHAT_ID']
 
+    bot = telegram.Bot(token=bot_token)
+    check_lessons_review(dvmn_token, chat_id, bot)
+
 
 
 

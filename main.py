@@ -16,7 +16,7 @@ def check_lessons_review(token, chat_id, bot):
     params = {}
     while True:
         try:
-            response = requests.get(url_for_long_polling, headers=headers, params=params, timeout=60)
+            response = requests.get(url_for_long_polling, headers=headers, params=params)
             response.raise_for_status()
             lessons_review = response.json()
             if lessons_review['status'] == 'timeout':
@@ -34,11 +34,13 @@ def check_lessons_review(token, chat_id, bot):
 
 def send_message(chat_id, bot, review):
     new_attempts = review['new_attempts'][0]
+    lesson_title = new_attempts['lesson_title']
+    lesson_url = new_attempts['lesson_url']
     if not new_attempts['is_negative']:
-        message = 'Вашу работу проверили, преподаватель принял работу'
+        message = f'Вашу работу "{lesson_title}" проверили, преподаватель принял работу: {lesson_url}'
         bot.send_message(chat_id=chat_id, text=message)
     else:
-        message = 'Вашу работу проверили, преподаватель нашел ошибки'
+        message = f'Вашу работу "{lesson_title}" проверили, преподаватель нашел ошибки: {lesson_url}'
         bot.send_message(chat_id=chat_id, text=message)
 
 

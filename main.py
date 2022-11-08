@@ -18,10 +18,13 @@ def check_lessons_review(token, chat_id, bot):
         try:
             response = requests.get(url_for_long_polling, headers=headers, params=params, timeout=60)
             response.raise_for_status()
-            timestamp = response.json()['last_attempt_timestamp']
-            # response = requests.get(url_for_long_polling, headers=headers, , timeout=5)
-            # response.raise_for_status()
-            print(response.text)
+            lessons_review = response.json()
+            if lessons_review['status'] == 'timeout':
+                params['timestamp'] = lessons_review['timestamp_to_requests']
+            else:
+                params['timestamp'] = lessons_review['last_attempt_timestamp']
+
+                send_message(chat_id, bot, lessons_review)
         except ReadTimeout:
             continue
         except ConnectionError:

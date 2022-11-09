@@ -29,8 +29,7 @@ def check_lessons_review(token, chat_id, bot):
         except ReadTimeout:
             continue
         except ConnectionError:
-            continue
-        time.sleep(90)
+            time.sleep(60)
 
 
 def send_message(chat_id, bot, review):

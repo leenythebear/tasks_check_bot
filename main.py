@@ -8,7 +8,6 @@ import requests
 from requests import ReadTimeout, ConnectionError
 
 url_for_long_polling = 'https://dvmn.org/api/long_polling/'
-load_dotenv()
 
 
 def check_lessons_review(token, chat_id, bot):

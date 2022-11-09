@@ -7,7 +7,7 @@ import telegram
 import requests
 from requests import ReadTimeout, ConnectionError
 
-url_for_long_polling = "https://dvmn.org/api/long_polling/"
+long_polling_url = "https://dvmn.org/api/long_polling/"
 
 
 def check_lessons_review(token, chat_id, bot):
@@ -16,7 +16,7 @@ def check_lessons_review(token, chat_id, bot):
     while True:
         try:
             response = requests.get(
-                url_for_long_polling, headers=headers, params=params,
+                long_polling_url, headers=headers, params=params,
             )
             response.raise_for_status()
             lessons_review = response.json()

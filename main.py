@@ -38,10 +38,12 @@ def send_message(chat_id, bot, review):
     lesson_title = new_attempts["lesson_title"]
     lesson_url = new_attempts["lesson_url"]
     if not new_attempts["is_negative"]:
-        message = f'Вашу работу "{lesson_title}" проверили, преподаватель принял работу: {lesson_url}'
+        message = f'Вашу работу "{lesson_title}" проверили, преподаватель ' \
+                   f'принял работу: {lesson_url}'
         bot.send_message(chat_id=chat_id, text=message)
     else:
-        message = f'Вашу работу "{lesson_title}" проверили, преподаватель нашел ошибки: {lesson_url}'
+        message = f'Вашу работу "{lesson_title}" проверили, преподаватель ' \
+                  f'нашел ошибки: {lesson_url} '
         bot.send_message(chat_id=chat_id, text=message)
 
 

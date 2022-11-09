@@ -7,21 +7,23 @@ import telegram
 import requests
 from requests import ReadTimeout, ConnectionError
 
-url_for_long_polling = 'https://dvmn.org/api/long_polling/'
+url_for_long_polling = "https://dvmn.org/api/long_polling/"
 
 
 def check_lessons_review(token, chat_id, bot):
-    headers = {'Authorization': f'Token {token}'}
+    headers = {"Authorization": f"Token {token}"}
     params = {}
     while True:
         try:
-            response = requests.get(url_for_long_polling, headers=headers, params=params)
+            response = requests.get(
+                url_for_long_polling, headers=headers, params=params,
+            )
             response.raise_for_status()
             lessons_review = response.json()
-            if lessons_review['status'] == 'timeout':
-                params['timestamp'] = lessons_review['timestamp_to_requests']
+            if lessons_review["status"] == "timeout":
+                params["timestamp"] = lessons_review["timestamp_to_requests"]
             else:
-                params['timestamp'] = lessons_review['last_attempt_timestamp']
+                params["timestamp"] = lessons_review["last_attempt_timestamp"]
 
                 send_message(chat_id, bot, lessons_review)
         except ReadTimeout:
@@ -32,10 +34,10 @@ def check_lessons_review(token, chat_id, bot):
 
 
 def send_message(chat_id, bot, review):
-    new_attempts = review['new_attempts'][0]
-    lesson_title = new_attempts['lesson_title']
-    lesson_url = new_attempts['lesson_url']
-    if not new_attempts['is_negative']:
+    new_attempts = review["new_attempts"][0]
+    lesson_title = new_attempts["lesson_title"]
+    lesson_url = new_attempts["lesson_url"]
+    if not new_attempts["is_negative"]:
         message = f'Вашу работу "{lesson_title}" проверили, преподаватель принял работу: {lesson_url}'
         bot.send_message(chat_id=chat_id, text=message)
     else:
@@ -43,20 +45,12 @@ def send_message(chat_id, bot, review):
         bot.send_message(chat_id=chat_id, text=message)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     load_dotenv()
 
-    dvmn_token = os.environ['DVMN_TOKEN']
-    bot_token = os.environ['BOT_TOKEN']
-    chat_id = os.environ['CHAT_ID']
+    dvmn_token = os.environ["DVMN_TOKEN"]
+    bot_token = os.environ["BOT_TOKEN"]
+    chat_id = os.environ["CHAT_ID"]
 
     bot = telegram.Bot(token=bot_token)
     check_lessons_review(dvmn_token, chat_id, bot)
-
-
-
-
-
-
-
-

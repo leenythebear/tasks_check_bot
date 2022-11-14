@@ -21,7 +21,7 @@ def check_lessons_review(token, chat_id, bot):
             response.raise_for_status()
             lessons_review = response.json()
             if lessons_review["status"] == "timeout":
-                params["timestamp"] = lessons_review["timestamp_to_requests"]
+                params["timestamp"] = lessons_review["timestamp_to_request"]
             else:
                 params["timestamp"] = lessons_review["last_attempt_timestamp"]
 

@@ -4,10 +4,26 @@ import time
 from dotenv import load_dotenv
 import telegram
 
+import logging
+
 import requests
 from requests import ReadTimeout, ConnectionError
 
 long_polling_url = "https://dvmn.org/api/long_polling/"
+
+logger = logging.getLogger('bot')
+
+
+class TelegramLogHandler(logging.Handler):
+
+    def __init__(self, chat_id, bot):
+        super().__init__()
+        self.chat_id = chat_id
+        self.bot = bot
+
+    def emit(self, record: logging.LogRecord) -> None:
+        log_entry = self.format(record)
+        self.bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def check_lessons_review(token, chat_id, bot):
@@ -29,6 +45,7 @@ def check_lessons_review(token, chat_id, bot):
         except ReadTimeout:
             continue
         except ConnectionError:
+            logger.exception('Отсутствует подключение к интернету')
             time.sleep(60)
 
 
@@ -54,4 +71,7 @@ if __name__ == "__main__":
     chat_id = os.environ["CHAT_ID"]
 
     bot = telegram.Bot(token=bot_token)
+    logger.setLevel(logging.INFO)
+    logger.addHandler(TelegramLogHandler(chat_id, bot))
+    logger.info('Бот запущен')
     check_lessons_review(dvmn_token, chat_id, bot)

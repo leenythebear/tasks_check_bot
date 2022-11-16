@@ -47,6 +47,8 @@ def check_lessons_review(token, chat_id, bot):
         except ConnectionError:
             logger.exception('Отсутствует подключение к интернету')
             time.sleep(60)
+        except Exception as error:
+            logger.exception(error, exc_info=True)
 
 
 def send_message(chat_id, bot, review):

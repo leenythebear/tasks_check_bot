@@ -68,10 +68,13 @@ if __name__ == "__main__":
 
     dvmn_token = os.environ["DVMN_TOKEN"]
     bot_token = os.environ["BOT_TOKEN"]
+    log_bot_token = os.environ['LOG_BOT_TOKEN']
     chat_id = os.environ["CHAT_ID"]
 
     bot = telegram.Bot(token=bot_token)
+    log_bot = telegram.Bot(token=log_bot_token)
+
     logger.setLevel(logging.INFO)
-    logger.addHandler(TelegramLogHandler(chat_id, bot))
+    logger.addHandler(TelegramLogHandler(chat_id, log_bot))
     logger.info('Бот запущен')
     check_lessons_review(dvmn_token, chat_id, bot)
